@@ -32,6 +32,7 @@ class TimerManager: ObservableObject {
         timer = nil
         isRunning = false
         isFinished = false
+        isPaused = false
         endTime = nil
         isBreak = false
     }
