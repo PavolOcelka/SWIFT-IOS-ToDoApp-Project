@@ -36,7 +36,7 @@ struct BrainDumpView: View {
                         .padding(.horizontal)
                     }
                     
-                    List {
+                    ScrollView {
                         ForEach(brainDumps, id: \.id) { brainDump in
                             VStack {
                                 Text(brainDump.title.isEmpty ? "Brain Dump Entry" : brainDump.title)
@@ -51,9 +51,9 @@ struct BrainDumpView: View {
                             .background(Color.white)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .frame(maxWidth: .infinity, minHeight: 100, maxHeight: 220)
-                            .padding()
                         }
                     }
+                    .padding(.horizontal)
                     .scrollContentBackground(.hidden)
                 }
             }
