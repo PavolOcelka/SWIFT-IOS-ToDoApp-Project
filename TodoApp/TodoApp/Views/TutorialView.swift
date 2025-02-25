@@ -88,7 +88,7 @@ struct TutorialView: View {
                         .foregroundStyle(.black)
                 }
                 .frame(width: 300, height: 50)
-                .background()
+                .background(.white)
                 .clipShape(Capsule())
 
             }
