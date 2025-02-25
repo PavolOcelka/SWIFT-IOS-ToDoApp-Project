@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ContentView: View {
     
-   @AppStorage("wasShown") private var wasShown: Bool = false
+    @AppStorage("wasShown") private var wasShown: Bool = false
+    
     
     @Environment(\.modelContext) var context
     
@@ -25,9 +26,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             if !wasShown {
-                
-                    TutorialView(wasShown: $wasShown)
-                
+                TutorialView(wasShown: $wasShown)
             }
             else {
                 ZStack {
@@ -191,10 +190,10 @@ struct ContentView: View {
                             }
                         }
                         List {
-                            ForEach(tasks) { task in
+                            ForEach(tasks, id: \.self) { task in
                                 NavigationLink(destination: TaskDetailView(task: task)){
                                     VStack {
-                                        Text(task.name)
+                                        Text(task.name == "" ? "Untitled" : task.name)
                                             .font(.headline.bold())
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                         Text(task.category)
@@ -242,6 +241,13 @@ struct ContentView: View {
                                         .frame(width: 50, height: 50)
                                         .foregroundStyle(.white)
                                 }
+                                NavigationLink(destination: QuotesView()){
+                                    Image(systemName: "quote.closing")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 50, height: 50)
+                                        .foregroundStyle(.white)
+                                }
                             }
                         }
                         .padding()
@@ -276,7 +282,7 @@ struct ContentView: View {
             let taskToDelete = tasks[index]
             context.delete(taskToDelete)
         }
-
+        
         do {
             try context.save()
         } catch {

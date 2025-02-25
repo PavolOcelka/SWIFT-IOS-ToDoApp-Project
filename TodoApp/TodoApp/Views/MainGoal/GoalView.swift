@@ -39,6 +39,10 @@ struct GoalView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .padding()
                         
+                        Text("Set up your main goal, and start breaking it down into smaller steps.")
+                            .foregroundStyle(.white.opacity(0.5))
+                            .multilineTextAlignment(.center)
+                        
                         Spacer()
                     } else {
                         NavigationLink(destination: GoalDetailView(mainGoal: mainGoal.first!)) {
