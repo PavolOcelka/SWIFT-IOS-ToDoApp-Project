@@ -21,7 +21,7 @@ struct TodoApp: App {
         
     let container: ModelContainer = {
         do {
-            let schema = Schema([Task.self, WeeklyGoal.self, MonthlyGoal.self, GoalPart.self, Goal.self, BrainDumpModel.self])
+            let schema = Schema([Task.self, WeeklyGoal.self, MonthlyGoal.self, GoalPart.self, Goal.self, BrainDumpModel.self, Idea.self])
             let container = try ModelContainer(for: schema, configurations: [])
             return container
         } catch {

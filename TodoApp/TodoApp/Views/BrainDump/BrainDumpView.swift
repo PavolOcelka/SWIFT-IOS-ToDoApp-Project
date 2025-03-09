@@ -30,11 +30,15 @@ struct BrainDumpView: View {
                             Image(systemName: "plus.circle")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 32, height: 32)
+                                .frame(width: 30)
                         }
                         .foregroundStyle(.white)
                         .padding(.horizontal)
                     }
+                    Text("Total: \(brainDumps.count)")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        .foregroundStyle(.white.opacity(0.5))
                     
                     ScrollView {
                         ForEach(brainDumps, id: \.id) { brainDump in
