@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class TimerManager: ObservableObject {
     @Published var timeRemaining: Int = 0
@@ -19,11 +20,14 @@ class TimerManager: ObservableObject {
 
     func startTimer(minutes: Int, isBreak: Bool = false) {
         timeRemaining = minutes * 60
+        notifyUser(seconds: minutes * 60)
         endTime = Date().addingTimeInterval(TimeInterval(timeRemaining + 1))
         isRunning = true
         isFinished = false
         self.isBreak = isBreak
         startUpdatingTime()
+        
+        
     }
 
     func stopTimer() {
@@ -35,6 +39,7 @@ class TimerManager: ObservableObject {
         isPaused = false
         endTime = nil
         isBreak = false
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["Timer"])
     }
 
     private func startUpdatingTime() {
@@ -82,6 +87,8 @@ class TimerManager: ObservableObject {
         pausedTimeRemaining = timeRemaining
         isRunning = false
         isPaused = true
+        
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["Timer"])
     }
 
     func resumeTimer() {
@@ -90,7 +97,42 @@ class TimerManager: ObservableObject {
         endTime = Date().addingTimeInterval(TimeInterval(timeRemaining + 1))
         isPaused = false
         isRunning = true
+        notifyUser(seconds: timeRemaining)
         startUpdatingTime()
+    }
+    
+    func notifyUser(seconds: Int) {
+            let time = Date()
+            let center = UNUserNotificationCenter.current()
+            let content = UNMutableNotificationContent()
+            
+            if let resumeTime = Calendar.current.date(byAdding: .minute, value: 5, to: time) {
+                let formatter = DateFormatter()
+                formatter.timeStyle = .short
+                
+                let resumeTimeString = formatter.string(from: resumeTime)
+                
+                content.title = "Time's Up!"
+                content.body = "Get a 5 minute break and start again at \(resumeTimeString)"
+                content.sound = UNNotificationSound.default
+                
+                let triger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(seconds), repeats: false)
+                
+                let request = UNNotificationRequest(identifier: "Timer", content: content, trigger: triger)
+                
+                center.add(request) { error in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        print("Scheduled")
+                    }
+                }
+                
+                
+            } else {
+                print("Failed to create notifiation")
+            }
+        
     }
 }
 

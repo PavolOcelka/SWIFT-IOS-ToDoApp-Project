@@ -13,10 +13,11 @@ struct AddBrainDumpSheet: View {
     
     @State private var title = ""
     @State private var content = ""
-    
+        
     var body: some View {
         Form {
             TextField("Title", text: $title)
+                .autocorrectionDisabled()
             ZStack {
                 if content.isEmpty {
                     Text("Enter Content")
@@ -24,6 +25,7 @@ struct AddBrainDumpSheet: View {
                         .foregroundStyle(.secondary.opacity(0.5))
                 }
                 TextEditor(text: $content)
+                    .autocorrectionDisabled()
                     .frame(maxHeight: 250)
             }
         }
@@ -37,7 +39,7 @@ struct AddBrainDumpSheet: View {
     }
     
     func addNewBRainDump() {
-        let newDump = BrainDumpModel(title: title, text: content)
+        let newDump = BrainDumpModel(title: title, text: content, date: .now)
         context.insert(newDump)
         dismiss()
     }

@@ -10,6 +10,14 @@ import SwiftUI
 
 @main
 struct TodoApp: App {
+    
+    init() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { result, error in
+            if let error = error {
+                print(error)
+            }}
+    }
         
     let container: ModelContainer = {
         do {

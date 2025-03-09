@@ -42,6 +42,7 @@ struct GoalView: View {
                         Text("Set up your main goal, and start breaking it down into smaller steps.")
                             .foregroundStyle(.white.opacity(0.5))
                             .multilineTextAlignment(.center)
+                            .padding(.horizontal)
                         
                         Spacer()
                     } else {
